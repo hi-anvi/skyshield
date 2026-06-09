@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block title %} Weather {% endblock %}
+
+{% block body %}
+
+<div class="wx-page">
+
+    <!-- ── Top row: Current + Metrics ── -->
+    <div class="wx-top">
+
+        <!-- Current weather -->
+        <div class="wx-card">
+            <div class="current-label">
+                CURRENT WEATHER
+                <span class="night-badge">{{ current['weather'] }}</span>
+            </div>
+            <div class="current-icon-wrap">
+                {% set cw = current['weather'] | lower %}
+                {% if 'clear' in cw or 'sunny' in cw %}🌙
+                {% elif 'rain' in cw or 'shower' in cw or 'drizzle' in cw %}🌧
+                {% elif 'snow' in cw %}❄️
+                {% elif 'thunder' in cw %}⛈
+                {% elif 'cloud' in cw or 'overcast' in cw %}☁️
+                {% elif 'fog' in cw %}🌫
+                {% else %}🌡
+                {% endif %}
+            </div>
+            <div class="current-temp-big">{{ current['temperature'] }}<sup>°C</sup></div>
+            <div class="current-cond">{{ current['weather'] }}</div>
+            <div class="current-feels">{{ current['time'] }}</div>
+        </div>
+
+        <!-- Key metrics -->
+        <div class="wx-card">
+            <div class="metrics-title">KEY METRICS</div>
+
+            <div class="metric-row">
+                <div class="metric-icon" style="background:rgba(52,211,153,0.12);color:#34d399">💧</div>
+                <span class="metric-name">Humidity</span>
+                <span class="metric-val">{{ current['humidity'] }}%</span>
+            </div>
+            <div class="metric-row">
+                <div class="metric-icon" style="background:rgba(251,146,60,0.12);color:#fb923c">🌬</div>
+                <span class="metric-name">Condition</span>
+                <span class="metric-val">{{ current['weather'] }}</span>
+            </div>
+            <div class="metric-row">
+                <div class="metric-icon" style="background:rgba(52,211,153,0.12);color:#34d399">🌡</div>
+                <span class="metric-name">Temperature</span>
+                <span class="metric-val">{{ current['temperature'] }}°C</span>
+            </div>
+            <div class="metric-row">
+                <div class="metric-icon" style="background:rgba(251,191,36,0.12);color:#fbbf24">☀️</div>
+                <span class="metric-name">Today High</span>
+                <span class="metric-val">{{ day['temperature_max'][0] }}°C</span>
+            </div>
+            <div class="metric-row">
+                <div class="metric-icon" style="background:rgba(99,102,241,0.12);color:#818cf8">🌙</div>
+                <span class="metric-name">Today Low</span>
+                <span class="metric-val">{{ day['temperature_min'][0] }}°C</span>
+            </div>
+            <div class="metric-row">
+                <div class="metric-icon" style="background:rgba(148,163,184,0.12);color:#94a3b8">☁️</div>
+                <span class="metric-name">Forecast</span>
+                <span class="metric-val">{{ day['weather'][0] }}</span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ── Hourly Forecast ── -->
+    <div class="wx-section-title">
+        <div class="icon-badge teal">🕐</div>
+        Hourly Forecast
+    </div>
+
+    <div class="hourly-card">
+        <div class="hourly-inner">
+
+            <!-- "Now" column -->
+            <div class="hourly-col now">
+                <div class="hourly-time">Now</div>
+                <div class="hourly-icon">
+                    {% set cw = current['weather'] | lower %}
+                    {% if 'clear' in cw or 'sunny' in cw %}☀️
+                    {% elif 'rain' in cw or 'shower' in cw %}🌧
+                    {% elif 'snow' in cw %}❄️
+                    {% elif 'thunder' in cw %}⛈
+                    {% elif 'cloud' in cw %}⛅
+                    {% elif 'fog' in cw %}🌫
+                    {% else %}🌡
+                    {% endif %}
+                </div>
+                <div class="hourly-temp">{{ current['temperature'] }}°</div>
+                <div class="hourly-hum">💧 {{ current['humidity'] }}%</div>
+            </div>
+
+            <!-- Next 12 hours -->
+            {% for i in range(hour['time'] | length) %}
+            <div class="hourly-col">
+                <div class="hourly-time">{{ hour['time'][i] }}</div>
+                <div class="hourly-icon">
+                    {% set hw = hour['weather'][i] | lower %}
+                    {% if 'clear' in hw or 'sunny' in hw %}☀️
+                    {% elif 'rain' in hw or 'shower' in hw %}🌧
+                    {% elif 'snow' in hw %}❄️
+                    {% elif 'thunder' in hw %}⛈
+                    {% elif 'cloud' in hw or 'overcast' in hw %}⛅
+                    {% elif 'fog' in hw %}🌫
+                    {% else %}🌤
+                    {% endif %}
+                </div>
+                <div class="hourly-temp">{{ hour['temperature'][i] }}°</div>
+                <div class="hourly-hum">💧 {{ hour['humidity'][i] }}%</div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- ── 7-Day Forecast ── -->
+    <div class="wx-section-title">
+        <div class="icon-badge amber">📅</div>
+        7-Day Forecast
+    </div>
+
+    {% set global_max = namespace(val=0) %}
+    {% for i in range(day['temperature_max'] | length) %}
+    {% if day['temperature_max'][i] > global_max.val %}
+    {% set global_max.val = day['temperature_max'][i] %}
+    {% endif %}
+    {% endfor %}
+
+    <div class="daily-card">
+        {% for i in range(day['time'] | length) %}
+
+        {% set bar_pct = (day['temperature_max'][i] / global_max.val * 100) | int %}
+
+        <div class="daily-row">
+
+            <!-- Day label -->
+            <div class="daily-day">
+                {% if i == 0 %}Today
+                {% elif i == 1 %}Tomorrow
+                {% else %}{{ day['time'][i] }}
+                {% endif %}
+            </div>
+
+            <!-- Icon -->
+            <div class="daily-icon">
+                {% set dw = day['weather'][i] | lower %}
+                {% if 'clear' in dw or 'sunny' in dw %}☀️
+                {% elif 'rain' in dw or 'shower' in dw %}🌧
+                {% elif 'snow' in dw %}❄️
+                {% elif 'thunder' in dw %}⛈
+                {% elif 'cloud' in dw or 'overcast' in dw %}⛅
+                {% elif 'fog' in dw %}🌫
+                {% else %}🌤
+                {% endif %}
+            </div>
+
+            <!-- Min temp -->
+            <div class="daily-min">{{ day['temperature_min'][i] }}°</div>
+
+            <!-- Temperature bar -->
+            <div class="daily-bar-wrap">
+                <div class="daily-bar-fill" style="width: {{ bar_pct }}%"></div>
+            </div>
+
+            <!-- Max temp -->
+            <div class="daily-max">{{ day['temperature_max'][i] }}°</div>
+
+            <!-- Humidity -->
+            <div class="daily-hum">{{ day['weather'][i] }}</div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

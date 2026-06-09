@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block title %} Location {% endblock %}
+
+{% block body %}
+
+    <form action="/weather" method="post">
+        <input type="text" name="location" placeholder="Location eg. Chandigarh, New York, London etc." autofocus>
+        <button type="submit">Search</button>
+    </form>
+
+{% endblock %}

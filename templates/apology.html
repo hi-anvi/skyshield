@@ -1,0 +1,377 @@
+{% extends "layout.html" %}
+
+{% block title %}Oops {% endblock %}
+
+{% block body %}
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            min-height: 100vh;
+            background: #080d17;
+            color: #e2e8f0;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── Stars ── */
+        #stars {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0;
+            animation: twinkle var(--d) var(--dl) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: var(--op);
+            }
+        }
+
+        /* ── Navbar ── */
+        .site-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(8, 13, 23, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.9rem 2rem;
+        }
+
+        .site-nav .brand {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #34d399;
+            text-decoration: none;
+            letter-spacing: 0.06em;
+        }
+
+        .site-nav .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .site-nav .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .site-nav .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+        }
+
+        /* ── Main layout ── */
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem 3rem;
+        }
+
+        .apology-card {
+            background: #111827;
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            text-align: center;
+            max-width: 540px;
+            width: 100%;
+            box-shadow: 0 0 60px rgba(248, 113, 113, 0.08), 0 24px 60px rgba(0, 0, 0, 0.5);
+            animation: cardIn 0.6s ease both;
+        }
+
+        @keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Error code */
+        .error-code {
+            font-size: 5.5rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #f87171;
+            letter-spacing: -3px;
+            text-shadow: 0 0 40px rgba(248, 113, 113, 0.5);
+            animation: glitch 4s infinite;
+            margin-bottom: 0.25rem;
+        }
+
+        /* subtle glitch flicker on the code */
+        @keyframes glitch {
+
+            0%,
+            92%,
+            100% {
+                text-shadow: 0 0 40px rgba(248, 113, 113, 0.5);
+                transform: translate(0, 0);
+            }
+
+            93% {
+                text-shadow: -3px 0 #38bdf8, 3px 0 #f87171;
+                transform: translate(-2px, 0);
+            }
+
+            95% {
+                text-shadow: 3px 0 #38bdf8, -3px 0 #f87171;
+                transform: translate(2px, 0);
+            }
+
+            97% {
+                text-shadow: 0 0 40px rgba(248, 113, 113, 0.5);
+                transform: translate(0, 0);
+            }
+        }
+
+        /* GIF */
+        .apology-gif-wrap {
+            margin: 1.5rem auto;
+            width: 220px;
+            height: 180px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #0f1624;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .apology-gif-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* fallback emoji when gif is missing */
+        .apology-gif-wrap .gif-fallback {
+            font-size: 4rem;
+            animation: wobble 1.2s ease-in-out infinite;
+        }
+
+        @keyframes wobble {
+
+            0%,
+            100% {
+                transform: rotate(-8deg);
+            }
+
+            50% {
+                transform: rotate(8deg);
+            }
+        }
+
+        /* Message */
+        .error-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #f87171;
+            margin-bottom: 0.6rem;
+        }
+
+        .error-message {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .error-hint {
+            font-size: 0.8rem;
+            color: #475569;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .apology-actions {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(248, 113, 113, 0.12);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            color: #f87171;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.65rem 1.4rem;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+        }
+
+        .btn-back:hover {
+            background: rgba(248, 113, 113, 0.2);
+            box-shadow: 0 0 20px rgba(248, 113, 113, 0.25);
+            transform: translateY(-2px);
+            color: #f87171;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #34d399;
+            color: #080d17;
+            font-weight: 700;
+            font-size: 0.85rem;
+            padding: 0.65rem 1.4rem;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+        }
+
+        .btn-home:hover {
+            opacity: 0.88;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(52, 211, 153, 0.3);
+            color: #080d17;
+        }
+
+        /* Decorative dots */
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.4rem;
+            margin-top: 2rem;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .dot.active {
+            background: #f87171;
+            animation: dotPulse 1.5s infinite;
+        }
+
+        @keyframes dotPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+        }
+    </style>
+
+    <div id="stars"></div>
+
+    <div class="page">
+        <div class="apology-card">
+
+            <!-- Error code with glitch effect -->
+            <div class="error-code">{{ error }}</div>
+
+            <!-- GIF — drop error.gif into /static/ and it shows up.
+           Falls back to a wobbling emoji if the file isn't there. -->
+            <div class="apology-gif-wrap">
+                <img src="/static/error.gif" alt="Error"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <span class="gif-fallback" style="display:none">⚠️</span>
+            </div>
+
+            <!-- Message -->
+            <div class="error-label">Something went wrong</div>
+            <div class="error-message">{{ main }}</div>
+            <div class="error-hint">
+                Don't worry — head back and try again.<br>
+                If this keeps happening, double-check what you entered.
+            </div>
+
+            <!-- Actions -->
+            <div class="apology-actions">
+                <a class="btn-back" onclick="history.back(); return false;" href="#">← Go Back</a>
+                <a class="btn-home" href="/home">🏠&nbsp; Home</a>
+            </div>
+
+            <!-- Decorative dots -->
+            <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Stars
+        const wrap = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const s = document.createElement('div');
+            s.className = 'star';
+            const sz = (Math.random() * 1.8 + 0.6).toFixed(1);
+            s.style.cssText = `
+            width:${sz}px;height:${sz}px;
+            top:${(Math.random() * 100).toFixed(2)}%;
+            left:${(Math.random() * 100).toFixed(2)}%;
+            --d:${(Math.random() * 4 + 3).toFixed(1)}s;
+            --dl:${(Math.random() * 6).toFixed(1)}s;
+            --op:${(Math.random() * 0.4 + 0.2).toFixed(2)};
+        `;
+            wrap.appendChild(s);
+        }
+    </script>
+
+{% endblock %}
