@@ -1,0 +1,577 @@
+/* =====================================================
+   SkyShield — Night Theme
+   Drop this file into your /static/ folder as styles.css
+   Fonts loaded from Google (no install needed — add this
+   ONE line inside <head> in layout.html, before styles.css):
+
+   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+   ===================================================== */
+
+/* ---------- Tokens ---------- */
+:root {
+    --bg: #080d17;
+    --bg2: #0f1624;
+    --bg3: #161f33;
+    --border: rgba(56, 189, 248, 0.15);
+    --accent: #38bdf8;
+    --accent-dim: rgba(56, 189, 248, 0.12);
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --danger: #f87171;
+    --radius: 10px;
+    --glow: 0 0 20px rgba(56, 189, 248, 0.35);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---------- Body ---------- */
+body {
+    background-color: var(--bg);
+    /* subtle star-like dot grid */
+    background-image: radial-gradient(circle, rgba(56, 189, 248, 0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ---------- Navbar ---------- */
+/* override Bootstrap's bg-light and border */
+.navbar.bg-light,
+.navbar {
+    background-color: rgba(8, 13, 23, 0.92) !important;
+    border-bottom: 1px solid var(--border) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.6rem 1.25rem;
+}
+
+.navbar-brand,
+.navbar-brand span {
+    font-family: 'Orbitron', monospace !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--accent) !important;
+    letter-spacing: 0.1em;
+    text-shadow: var(--glow);
+    text-decoration: none;
+}
+
+.nav-link {
+    color: var(--muted) !important;
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.35rem 0.8rem !important;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--accent) !important;
+    background: var(--accent-dim);
+}
+
+.navbar-toggler {
+    border-color: var(--border) !important;
+    filter: brightness(0.6);
+}
+
+/* ---------- Page body padding ---------- */
+/* every {% block body %} renders directly inside <html> after <nav>,
+   so we add breathing room with a wrapper selector */
+body>html>*:not(nav),
+nav+* {
+    padding: 2.5rem 1.5rem;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+/* ---------- Headings ---------- */
+h1,
+h2,
+h3 {
+    font-family: 'Orbitron', monospace;
+    letter-spacing: 0.05em;
+    color: var(--text);
+}
+
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1rem;
+    color: var(--accent);
+    margin: 2rem 0 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+/* ---------- Plain text nodes (Home "Hello", apology, weather "Now:") ---------- */
+/* These are bare text nodes — style their container instead */
+body {
+    /* text colour already set above */
+}
+
+/* ---------- Forms ---------- */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 400px;
+    margin: 3rem auto;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem 1.75rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.95rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18);
+}
+
+input::placeholder {
+    color: var(--muted);
+}
+
+button[type="submit"] {
+    background: var(--accent);
+    border: none;
+    border-radius: var(--radius);
+    color: #080d17;
+    cursor: pointer;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.65rem 1.25rem;
+    transition: opacity 0.2s, box-shadow 0.2s, transform 0.15s;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.88;
+    box-shadow: var(--glow);
+    transform: translateY(-1px);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* ---------- Weather page spans ---------- */
+/* The template uses inline style="margin: 10px" on every span —
+   we add visual card treatment on top of that */
+span[style*="margin"] {
+    display: inline-block;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    vertical-align: top;
+    transition: border-color 0.2s;
+    min-width: 90px;
+}
+
+span[style*="margin"]:hover {
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+/* ---------- Apology page ---------- */
+/* The template outputs:  {{ error }}{{ main }}
+   Both are bare text nodes so we style the block body wrapper */
+.apology-body,
+/* in case you ever add this class */
+body>html>div {
+    /* fallback: whatever wraps the block */
+    text-align: center;
+}
+
+/* target the raw text output — we can't add classes without editing HTML,
+   so we apply a full-page centred treatment via body flex */
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* give apology text some visual weight via the surrounding container */
+/* The error code and message render as plain text; make the page look good anyway */
+
+/* ---------- Index / welcome text ---------- */
+/* "Welcome to the Weather App" is an <h1> — covered above */
+p {
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--muted);
+}
+
+/* ---------- Fade-in on load ---------- */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+nav~* {
+    animation: fadeUp 0.45s ease both;
+}
+
+/* ── Page shell ─────────────────────────────── */
+.wx-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* ── Section headers (Hourly / 7-Day) ───────── */
+.wx-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 2.5rem 0 1rem;
+}
+
+.wx-section-title .icon-badge {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.icon-badge.teal {
+    background: rgba(52, 211, 153, 0.15);
+    color: #34d399;
+}
+
+.icon-badge.amber {
+    background: rgba(251, 191, 36, 0.15);
+    color: #fbbf24;
+}
+
+/* ── Top two-column layout ───────────────────── */
+.wx-top {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1rem;
+}
+
+@media (max-width: 720px) {
+    .wx-top {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Card base ───────────────────────────────── */
+.wx-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 1.75rem;
+}
+
+/* ── Current weather card ────────────────────── */
+.current-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: #6b7280;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.current-label .night-badge {
+    background: rgba(99, 102, 241, 0.25);
+    color: #a5b4fc;
+    font-size: 0.65rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    letter-spacing: 0.08em;
+}
+
+.current-icon-wrap {
+    float: right;
+    width: 72px;
+    height: 72px;
+    background: rgba(52, 211, 153, 0.12);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.current-temp-big {
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #f8fafc;
+    letter-spacing: -2px;
+}
+
+.current-temp-big sup {
+    font-size: 2rem;
+    font-weight: 400;
+    vertical-align: super;
+}
+
+.current-cond {
+    font-size: 1rem;
+    color: #cbd5e1;
+    margin-top: 0.4rem;
+}
+
+.current-feels {
+    font-size: 0.78rem;
+    color: #6b7280;
+    margin-top: 0.3rem;
+}
+
+/* ── Key metrics card ────────────────────────── */
+.metrics-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: #6b7280;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.metric-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metric-row:last-child {
+    border-bottom: none;
+}
+
+.metric-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+}
+
+.metric-name {
+    flex: 1;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.metric-val {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+/* ── Hourly strip ────────────────────────────── */
+.hourly-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 0.5rem 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #1f2937 transparent;
+}
+
+.hourly-card::-webkit-scrollbar {
+    height: 4px;
+}
+
+.hourly-card::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 4px;
+}
+
+.hourly-inner {
+    display: flex;
+    gap: 0;
+    min-width: max-content;
+}
+
+.hourly-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.85rem 1.1rem;
+    border-radius: 12px;
+    min-width: 72px;
+    gap: 0.4rem;
+    transition: background 0.15s;
+}
+
+.hourly-col.now {
+    background: rgba(52, 211, 153, 0.12);
+    border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.hourly-time {
+    font-size: 0.72rem;
+    color: #6b7280;
+    letter-spacing: 0.04em;
+}
+
+.hourly-col.now .hourly-time {
+    color: #34d399;
+    font-weight: 600;
+}
+
+.hourly-icon {
+    font-size: 1.15rem;
+}
+
+.hourly-temp {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f1f5f9;
+}
+
+.hourly-hum {
+    font-size: 0.68rem;
+    color: #34d399;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+/* ── 7-Day forecast ──────────────────────────── */
+.daily-card {
+    background: #111827;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 16px;
+    padding: 0.25rem 0;
+    overflow: hidden;
+}
+
+.daily-row {
+    display: grid;
+    grid-template-columns: 100px 32px 52px 1fr 52px minmax(80px, auto);
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.95rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.15s;
+}
+
+.daily-row:last-child {
+    border-bottom: none;
+}
+
+.daily-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.daily-day {
+    font-size: 0.88rem;
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.daily-icon {
+    font-size: 1rem;
+    text-align: center;
+}
+
+.daily-min {
+    font-size: 0.82rem;
+    color: #6b7280;
+    text-align: right;
+}
+
+.daily-bar-wrap {
+    position: relative;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.daily-bar-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, #34d399, #86efac);
+    border-radius: 999px;
+}
+
+.daily-max {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    text-align: right;
+}
+
+.daily-hum {
+    font-size: 0.78rem;
+    color: #34d399;
+    text-align: right;
+}
