@@ -20,8 +20,16 @@
                 padding: 0;
             }
 
+            #page-wrap {
+                position: relative;
+                min-height: 100%;
+                width: 100%;
+                overflow: hidden;
+            }
+
             html,
             body {
+                height: 100%;
                 background: #080d17;
                 color: #e2e8f0;
                 font-family: 'Inter', system-ui, sans-serif;
@@ -87,7 +95,7 @@
 
             /* ── Stars ── */
             #stars {
-                position: fixed;
+                position: absolute;
                 inset: 0;
                 pointer-events: none;
                 z-index: 0;
@@ -115,7 +123,7 @@
 
             /* ── Orbs ── */
             .orb {
-                position: fixed;
+                position: absolute;
                 border-radius: 50%;
                 filter: blur(90px);
                 pointer-events: none;
@@ -593,194 +601,196 @@
     </head>
 
     <body>
+        <div id="page-wrap">
 
-        <!-- Stars + orbs -->
-        <div id="stars"></div>
-        <div class="orb"
-            style="width:500px;height:500px;background:rgba(52,211,153,0.06);top:-120px;left:-100px;--od:14s"></div>
-        <div class="orb"
-            style="width:400px;height:400px;background:rgba(56,189,248,0.06);bottom:5%;right:-80px;--od:11s;animation-delay:-5s">
-        </div>
-        <div class="orb"
-            style="width:280px;height:280px;background:rgba(167,139,250,0.05);top:45%;left:42%;--od:16s;animation-delay:-8s">
-        </div>
-
-        <!-- Navbar -->
-        <nav class="site-nav">
-            <a class="brand" href="/">SkyShield</a>
-            <div class="nav-links">
-                <a href="/login">Log In</a>
-                <a href="/register" class="nav-cta">Get Started</a>
+            <!-- Stars + orbs -->
+            <div id="stars"></div>
+            <div class="orb"
+                style="width:500px;height:500px;background:rgba(52,211,153,0.06);top:-120px;left:-100px;--od:14s"></div>
+            <div class="orb"
+                style="width:400px;height:400px;background:rgba(56,189,248,0.06);bottom:5%;right:-80px;--od:11s;animation-delay:-5s">
             </div>
-        </nav>
-
-        <!-- HERO -->
-        <section class="hero">
-
-            <!-- Floating city cards -->
-            <div class="floater" style="top:20%;left:5%;--fd:1.1s;--bd:6s">
-                <div class="fv">🌤 28°C</div>
-                <div class="fl">Chandigarh, India</div>
-            </div>
-            <div class="floater" style="top:22%;right:5%;--fd:1.3s;--bd:7.5s">
-                <div class="fv">❄️ −3°C</div>
-                <div class="fl">Moscow, Russia</div>
-            </div>
-            <div class="floater" style="bottom:24%;left:6%;--fd:1.5s;--bd:5.5s">
-                <div class="fv">☀️ 36°C</div>
-                <div class="fl">Dubai, UAE</div>
-            </div>
-            <div class="floater" style="bottom:26%;right:6%;--fd:1.7s;--bd:8s">
-                <div class="fv">🌧 17°C</div>
-                <div class="fl">London, UK</div>
+            <div class="orb"
+                style="width:280px;height:280px;background:rgba(167,139,250,0.05);top:45%;left:42%;--od:16s;animation-delay:-8s">
             </div>
 
-            <div class="hero-inner">
-                <div class="hero-badge">
-                    <span class="live-dot"></span>
-                    Live weather · Updated in real time
+            <!-- Navbar -->
+            <nav class="site-nav">
+                <a class="brand" href="/">SkyShield</a>
+                <div class="nav-links">
+                    <a href="/login">Log In</a>
+                    <a href="/register" class="nav-cta">Get Started</a>
                 </div>
-                <h1>
-                    The weather app<br>
-                    that actually<br>
-                    <span class="grad-text">looks good</span>
-                </h1>
-                <p>
-                    SkyShield gives you live conditions, a 12-hour hourly forecast,
-                    and a full 7-day outlook for any city on Earth — in a clean night-mode dashboard.
-                </p>
-                <div class="hero-btns">
-                    <a href="/register" class="btn-green">🚀&nbsp; Get Started Free</a>
-                    <a href="/login" class="btn-ghost">Log In →</a>
-                </div>
-            </div>
+            </nav>
 
-        </section>
+            <!-- HERO -->
+            <section class="hero">
 
-        <!-- STATS -->
-        <section class="stats">
-            <div class="stats-grid">
-                <div class="reveal">
-                    <div class="stat-n">200K+</div>
-                    <div class="stat-l">Cities supported</div>
+                <!-- Floating city cards -->
+                <div class="floater" style="top:20%;left:5%;--fd:1.1s;--bd:6s">
+                    <div class="fv">🌤 28°C</div>
+                    <div class="fl">Chandigarh, India</div>
                 </div>
-                <div class="reveal d1">
-                    <div class="stat-n">7</div>
-                    <div class="stat-l">Days of forecast</div>
+                <div class="floater" style="top:22%;right:5%;--fd:1.3s;--bd:7.5s">
+                    <div class="fv">❄️ −3°C</div>
+                    <div class="fl">Moscow, Russia</div>
                 </div>
+                <div class="floater" style="bottom:24%;left:6%;--fd:1.5s;--bd:5.5s">
+                    <div class="fv">☀️ 36°C</div>
+                    <div class="fl">Dubai, UAE</div>
+                </div>
+                <div class="floater" style="bottom:26%;right:6%;--fd:1.7s;--bd:8s">
+                    <div class="fv">🌧 17°C</div>
+                    <div class="fl">London, UK</div>
+                </div>
+
+                <div class="hero-inner">
+                    <div class="hero-badge">
+                        <span class="live-dot"></span>
+                        Live weather · Updated in real time
+                    </div>
+                    <h1>
+                        The weather app<br>
+                        that actually<br>
+                        <span class="grad-text">looks good</span>
+                    </h1>
+                    <p>
+                        SkyShield gives you live conditions, a 12-hour hourly forecast,
+                        and a full 7-day outlook for any city on Earth — in a clean night-mode dashboard.
+                    </p>
+                    <div class="hero-btns">
+                        <a href="/register" class="btn-green">🚀&nbsp; Get Started Free</a>
+                        <a href="/login" class="btn-ghost">Log In →</a>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- STATS -->
+            <section class="stats">
+                <div class="stats-grid">
+                    <div class="reveal">
+                        <div class="stat-n">200K+</div>
+                        <div class="stat-l">Cities supported</div>
+                    </div>
+                    <div class="reveal d1">
+                        <div class="stat-n">7</div>
+                        <div class="stat-l">Days of forecast</div>
+                    </div>
+                    <div class="reveal d2">
+                        <div class="stat-n">12</div>
+                        <div class="stat-l">Hourly data points</div>
+                    </div>
+                    <div class="reveal d3">
+                        <div class="stat-n">100%</div>
+                        <div class="stat-l">Free to use</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURES -->
+            <section class="features">
+                <div class="sec-wrap">
+                    <div class="sec-tag reveal">Why SkyShield</div>
+                    <div class="sec-title reveal">Everything you need<br>to know about the sky</div>
+                    <div class="sec-sub reveal">No clutter. No ads. Just the weather data you care about, beautifully
+                        displayed.</div>
+                    <div class="feat-grid">
+                        <div class="feat-card reveal">
+                            <div class="feat-ico">🌡️</div>
+                            <h3>Live Conditions</h3>
+                            <p>Temperature, humidity, and sky condition pulled fresh from Open-Meteo every time you
+                                search.</p>
+                        </div>
+                        <div class="feat-card reveal d1">
+                            <div class="feat-ico">🕐</div>
+                            <h3>12-Hour Hourly</h3>
+                            <p>A scrollable hour-by-hour breakdown so you know exactly when to carry an umbrella.</p>
+                        </div>
+                        <div class="feat-card reveal d2">
+                            <div class="feat-ico">📅</div>
+                            <h3>7-Day Forecast</h3>
+                            <p>Daily highs, lows, and conditions shown on animated temperature bars for the full week
+                                ahead.</p>
+                        </div>
+                        <div class="feat-card reveal">
+                            <div class="feat-ico">🌍</div>
+                            <h3>Any City on Earth</h3>
+                            <p>Type any city name and SkyShield geocodes it instantly — from Chandigarh to Cape Town.
+                            </p>
+                        </div>
+                        <div class="feat-card reveal d1">
+                            <div class="feat-ico">🔒</div>
+                            <h3>Secure Accounts</h3>
+                            <p>Your account is protected with hashed passwords. Sign in from any device, stay safe.</p>
+                        </div>
+                        <div class="feat-card reveal d2">
+                            <div class="feat-ico">🌙</div>
+                            <h3>Night-Mode UI</h3>
+                            <p>Designed for dark environments. Easy on the eyes whether it's midnight or midday.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS -->
+            <section class="how">
+                <div class="sec-wrap" style="text-align:center">
+                    <div class="sec-tag reveal">How it works</div>
+                    <div class="sec-title reveal">Up and running in seconds</div>
+                    <div class="steps">
+                        <div class="step reveal">
+                            <div class="step-num" style="background:rgba(52,211,153,0.12)">1️⃣</div>
+                            <h3>Create an account</h3>
+                            <p>Register with just a username and password — free, no email required.</p>
+                        </div>
+                        <div class="step reveal d1">
+                            <div class="step-num" style="background:rgba(56,189,248,0.12)">2️⃣</div>
+                            <h3>Search your city</h3>
+                            <p>Type any city name into the search bar and hit Get Forecast.</p>
+                        </div>
+                        <div class="step reveal d2">
+                            <div class="step-num" style="background:rgba(251,191,36,0.12)">3️⃣</div>
+                            <h3>See your forecast</h3>
+                            <p>Current conditions, hourly, and 7-day outlook load instantly.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUOTE -->
+            <section class="quote-sec">
+                <div class="quote-box reveal">
+                    <div class="qi">⛅</div>
+                    <blockquote>"Weather data shouldn't look like a spreadsheet.<br>SkyShield makes it feel like a
+                        cockpit."</blockquote>
+                    <div class="qs">Built on Open-Meteo · Powered by Flask · Free forever</div>
+                </div>
+            </section>
+
+            <!-- FINAL CTA -->
+            <section class="cta-sec">
+                <h2 class="reveal">Ready to check<br>your forecast?</h2>
+                <p class="reveal d1">No credit card. No email. Sign up and search in under 30 seconds.</p>
                 <div class="reveal d2">
-                    <div class="stat-n">12</div>
-                    <div class="stat-l">Hourly data points</div>
+                    <a href="/register" class="btn-green" style="font-size:1rem;padding:0.9rem 2.5rem">
+                        🚀&nbsp; Get Started Free
+                    </a>
                 </div>
-                <div class="reveal d3">
-                    <div class="stat-n">100%</div>
-                    <div class="stat-l">Free to use</div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- FEATURES -->
-        <section class="features">
-            <div class="sec-wrap">
-                <div class="sec-tag reveal">Why SkyShield</div>
-                <div class="sec-title reveal">Everything you need<br>to know about the sky</div>
-                <div class="sec-sub reveal">No clutter. No ads. Just the weather data you care about, beautifully
-                    displayed.</div>
-                <div class="feat-grid">
-                    <div class="feat-card reveal">
-                        <div class="feat-ico">🌡️</div>
-                        <h3>Live Conditions</h3>
-                        <p>Temperature, humidity, and sky condition pulled fresh from Open-Meteo every time you search.
-                        </p>
-                    </div>
-                    <div class="feat-card reveal d1">
-                        <div class="feat-ico">🕐</div>
-                        <h3>12-Hour Hourly</h3>
-                        <p>A scrollable hour-by-hour breakdown so you know exactly when to carry an umbrella.</p>
-                    </div>
-                    <div class="feat-card reveal d2">
-                        <div class="feat-ico">📅</div>
-                        <h3>7-Day Forecast</h3>
-                        <p>Daily highs, lows, and conditions shown on animated temperature bars for the full week ahead.
-                        </p>
-                    </div>
-                    <div class="feat-card reveal">
-                        <div class="feat-ico">🌍</div>
-                        <h3>Any City on Earth</h3>
-                        <p>Type any city name and SkyShield geocodes it instantly — from Chandigarh to Cape Town.</p>
-                    </div>
-                    <div class="feat-card reveal d1">
-                        <div class="feat-ico">🔒</div>
-                        <h3>Secure Accounts</h3>
-                        <p>Your account is protected with hashed passwords. Sign in from any device, stay safe.</p>
-                    </div>
-                    <div class="feat-card reveal d2">
-                        <div class="feat-ico">🌙</div>
-                        <h3>Night-Mode UI</h3>
-                        <p>Designed for dark environments. Easy on the eyes whether it's midnight or midday.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            <footer>
+                © 2026 <span>SkyShield</span> · Weather data by Open-Meteo · Built with Flask
+            </footer>
 
-        <!-- HOW IT WORKS -->
-        <section class="how">
-            <div class="sec-wrap" style="text-align:center">
-                <div class="sec-tag reveal">How it works</div>
-                <div class="sec-title reveal">Up and running in seconds</div>
-                <div class="steps">
-                    <div class="step reveal">
-                        <div class="step-num" style="background:rgba(52,211,153,0.12)">1️⃣</div>
-                        <h3>Create an account</h3>
-                        <p>Register with just a username and password — free, no email required.</p>
-                    </div>
-                    <div class="step reveal d1">
-                        <div class="step-num" style="background:rgba(56,189,248,0.12)">2️⃣</div>
-                        <h3>Search your city</h3>
-                        <p>Type any city name into the search bar and hit Get Forecast.</p>
-                    </div>
-                    <div class="step reveal d2">
-                        <div class="step-num" style="background:rgba(251,191,36,0.12)">3️⃣</div>
-                        <h3>See your forecast</h3>
-                        <p>Current conditions, hourly, and 7-day outlook load instantly.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- QUOTE -->
-        <section class="quote-sec">
-            <div class="quote-box reveal">
-                <div class="qi">⛅</div>
-                <blockquote>"Weather data shouldn't look like a spreadsheet.<br>SkyShield makes it feel like a cockpit."
-                </blockquote>
-                <div class="qs">Built on Open-Meteo · Powered by Flask · Free forever</div>
-            </div>
-        </section>
-
-        <!-- FINAL CTA -->
-        <section class="cta-sec">
-            <h2 class="reveal">Ready to check<br>your forecast?</h2>
-            <p class="reveal d1">No credit card. No email. Sign up and search in under 30 seconds.</p>
-            <div class="reveal d2">
-                <a href="/register" class="btn-green" style="font-size:1rem;padding:0.9rem 2.5rem">
-                    🚀&nbsp; Get Started Free
-                </a>
-            </div>
-        </section>
-
-        <footer>
-            © 2026 <span>SkyShield</span> · Weather data by Open-Meteo · Built with Flask
-        </footer>
-
-        <script>
-            // Stars
-            const wrap = document.getElementById('stars');
-            for (let i = 0; i < 130; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
-                const sz = (Math.random() * 1.8 + 0.8).toFixed(1);
-                s.style.cssText = `
+            <script>
+                // Stars
+                const wrap = document.getElementById('stars');
+                for (let i = 0; i < 130; i++) {
+                    const s = document.createElement('div');
+                    s.className = 'star';
+                    const sz = (Math.random() * 1.8 + 0.8).toFixed(1);
+                    s.style.cssText = `
         width:${sz}px;height:${sz}px;
         top:${(Math.random() * 100).toFixed(2)}%;
         left:${(Math.random() * 100).toFixed(2)}%;
@@ -788,16 +798,17 @@
         --dl:${(Math.random() * 6).toFixed(1)}s;
         --op:${(Math.random() * 0.5 + 0.25).toFixed(2)};
       `;
-                wrap.appendChild(s);
-            }
+                    wrap.appendChild(s);
+                }
 
-            // Scroll reveal
-            const obs = new IntersectionObserver(entries => {
-                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-        </script>
+                // Scroll reveal
+                const obs = new IntersectionObserver(entries => {
+                    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+            </script>
 
+        </div> <!-- /page-wrap -->
     </body>
 
 </html>
