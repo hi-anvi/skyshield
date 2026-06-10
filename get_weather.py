@@ -22,6 +22,7 @@
 #     }
 # }
 
+import xml.etree.ElementTree as ET
 from datetime import datetime
 import requests
 
@@ -29,6 +30,7 @@ import requests
 # WMO Weather Interpretation Code → human-readable label
 # https://open-meteo.com/en/docs#weathervariables
 # ---------------------------------------------------------------------------
+
 WMO_CODES = {
     0: "Clear Sky",
     1: "Mostly Clear", 2: "Partly Cloudy", 3: "Overcast",
@@ -173,3 +175,36 @@ def getWeather(location: str) -> dict:
         "hourly": _build_hourly(raw),
         "daily": _build_daily(raw),
     }
+
+
+GDACS_URL = "https://www.gdacs.org/xml/rss.xml"
+
+
+def getDisasters(location_name: str) -> list[dict]:
+    """
+    Fetch active disasters near a location from GDACS RSS feed.
+    Returns a list of dicts: {title, type, severity, link}
+    Only returns disasters that mention the country/city in their title.
+    """
+    try:
+        resp = requests.get(GDACS_URL, timeout=10)
+        resp.raise_for_status()
+        root = ET.fromstring(resp.content)
+    except Exception:
+        return []
+
+    disasters = []
+    search_term = location_name.lower()
+
+    for item in root.findall(".//item"):
+        title = item.findtext("title") or ""
+        link = item.findtext("link") or ""
+
+        # Only include if location name appears in the title
+        if search_term in title.lower():
+            disasters.append({
+                "title":    title,
+                "link":     link,
+            })
+
+    return disasters
