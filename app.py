@@ -1,10 +1,10 @@
 # Import modules
-from cs50 import SQL
+from sql import SQL
 from flask import Flask, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from helpers import login_required, apology
-from get_weather import getWeather
+from get_weather import getWeather, getDisasters
 
 
 # Configure application session["contacts"]
@@ -110,5 +110,8 @@ def weather():
     if data is None:
         return apology("Invalid location")
 
+    # Get disaster data
+    disasters = getDisasters(location)
+
     # Put it in the html file
-    return render_template("weather.html", hour=data["hourly"], day=data["daily"], current=data["current"])
+    return render_template("weather.html", hour=data["hourly"], day=data["daily"], current=data["current"], disasters=disasters)
