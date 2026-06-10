@@ -176,7 +176,31 @@
 
         </div>
         {% endfor %}
+
     </div>
+
+    {% if disasters %}
+    <div class="wx-section-title">
+        <div class="icon-badge" style="background:rgba(248,113,113,0.15);color:#f87171">⚠️</div>
+        Active Disasters Nearby
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        {% for d in disasters %}
+        <div style="
+                    background:#1a0f0f;
+                    border:1px solid rgba(248,113,113,0.25);
+                    border-radius:10px;
+                    padding:0.9rem 1.25rem;
+                    font-size:0.85rem;
+                    color:#fca5a5;
+                ">
+            <a href="{{ d['link'] }}" target="_blank" style="color:#f87171;font-weight:600;text-decoration:none;">
+                {{ d['title'] }}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 
 </div>
 
